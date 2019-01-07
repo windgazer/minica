@@ -1,5 +1,5 @@
 ############################
-# STEP 1 build executable binary
+# build executable binary
 ############################
 FROM golang:alpine AS builder
 
@@ -19,9 +19,13 @@ RUN go get -d -v
 RUN go build -o /go/bin/minica
 
 ############################
-# STEP 2 build a small image
+# build openssl image
 ############################
-FROM scratch
+FROM alpine AS openssl
+
+# install openssl
+RUN apk add --update openssl && \
+    rm -rf /var/cache/apk/*
 
 # Copy our static executable.
 COPY --from=builder /go/bin/minica /go/bin/minica
