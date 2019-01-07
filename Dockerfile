@@ -30,5 +30,7 @@ RUN apk add --update openssl && \
 # Copy our static executable.
 COPY --from=builder /go/bin/minica /go/bin/minica
 
+WORKDIR /usr/src/cert
+
 # Run the hello binary.
 ENTRYPOINT ["/go/bin/minica"]
